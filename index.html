@@ -552,7 +552,53 @@
         </div>
     </section>
 
+    <!-- =============================== -->
+    <!-- SCRIPTS DO SISTEMA FÊNIX -->
+    <!-- ORDEM É CRÍTICA - NÃO ALTERAR -->
+    <!-- =============================== -->
+    
+    <!-- 1. Firebase SDK (Google) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+    
+    <!-- 2. Nossos arquivos Firebase (ORDEM IMPORTANTE!) -->
+    <script src="firebase-config.js"></script>      <!-- 1º: Configuração -->
+    <script src="auth-system.js"></script>          <!-- 2º: Autenticação -->
+    <script src="clientes-db.js"></script>          <!-- 3º: Banco de dados -->
+    
+    <!-- 3. Script principal do sistema (ÚLTIMO) -->
     <script src="script.js"></script>
+    
+    <!-- Script para inicialização -->
+    <script>
+        // Inicialização quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Sistema Fênix inicializando...');
+            
+            // Verificar se Firebase foi carregado
+            if (typeof firebase !== 'undefined') {
+                console.log('✅ Firebase carregado com sucesso');
+            } else {
+                console.error('❌ Firebase não carregado');
+            }
+            
+            // Configurar data atual
+            const dataAtualElement = document.getElementById('dataAtual');
+            if (dataAtualElement) {
+                const hoje = new Date();
+                dataAtualElement.textContent = hoje.toLocaleDateString('pt-BR');
+            }
+            
+            // Preencher campo de data com hoje
+            const dataInput = document.getElementById('data');
+            if (dataInput) {
+                const hoje = new Date().toISOString().split('T')[0];
+                dataInput.value = hoje;
+                dataInput.max = hoje; // Não permite datas futuras
+            }
+        });
+    </script>
     
     <!-- CSS para a barra de navegação -->
     <style>
