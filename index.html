@@ -112,6 +112,30 @@
     </script>
 </head>
 <body>
+    <!-- Barra de Navegação Superior -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="logo-fenix-small.png" alt="Fênix" style="height: 30px; margin-right: 10px;">
+                <span>Fênix System</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">
+                    <i class="fas fa-home"></i> Início
+                </a>
+                <a href="login.html" class="nav-link">
+                    <i class="fas fa-sign-in-alt"></i> Área de Login
+                </a>
+                <a href="suporte.html" class="nav-link">
+                    <i class="fas fa-headset"></i> Suporte
+                </a>
+                <a href="#contact" class="nav-link">
+                    <i class="fas fa-phone"></i> Contato
+                </a>
+            </div>
+        </div>
+    </nav>
+
     <!-- Tela de Login -->
     <div id="loginScreen" class="login-container">
         <div class="login-box">
@@ -162,6 +186,16 @@
                             <i class="fas fa-mobile-alt"></i> 
                             <strong>DICA:</strong> Instale como app! 
                             No Chrome/Edge, clique em "Instalar" no menu.
+                        </p>
+                    </div>
+                    
+                    <!-- Link para suporte -->
+                    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee;">
+                        <p style="font-size: 14px; color: #666;">
+                            Problemas para acessar? 
+                            <a href="suporte.html" style="color: #FF6B00; text-decoration: underline;">
+                                <i class="fas fa-question-circle"></i> Acesse nossa página de suporte
+                            </a>
                         </p>
                     </div>
                 </div>
@@ -220,6 +254,7 @@
                     <li><a href="#" onclick="exportarDados()"><i class="fas fa-file-export"></i> Exportar Excel</a></li>
                     <li><a href="#" onclick="fazerBackup()"><i class="fas fa-database"></i> Fazer Backup</a></li>
                     <li><a href="#" onclick="configurarSistema()"><i class="fas fa-cog"></i> Configurações</a></li>
+                    <li><a href="suporte.html" class="suporte-link"><i class="fas fa-headset"></i> Suporte</a></li>
                 </ul>
                 
                 <div class="sidebar-footer">
@@ -471,16 +506,27 @@
                 </section>
             </main>
 
-            <!-- Rodapé -->
+            <!-- Rodapé com Links -->
             <footer>
                 <div class="footer-content">
                     <div class="footer-left">
                         <p>© 2024 Fênix Client Management | Sistema profissional v2.0</p>
                         <p id="systemInfo">Sistema funcionando perfeitamente</p>
+                        
+                        <!-- Links de Navegação no Rodapé -->
+                        <div class="footer-links">
+                            <a href="index.html"><i class="fas fa-home"></i> Início</a> | 
+                            <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a> | 
+                            <a href="suporte.html"><i class="fas fa-headset"></i> Suporte</a> | 
+                            <a href="#contact"><i class="fas fa-phone"></i> Contato</a>
+                        </div>
                     </div>
                     <div class="footer-right">
                         <button class="btn-support" onclick="abrirSuporte()">
                             <i class="fas fa-headset"></i> Suporte
+                        </button>
+                        <button class="btn-install" onclick="mostrarBotaoInstalacaoPWA()">
+                            <i class="fas fa-download"></i> Instalar App
                         </button>
                     </div>
                 </div>
@@ -495,6 +541,121 @@
         </div>
     </div>
 
+    <!-- Seção de Contato (novo) -->
+    <section id="contact" style="display: none; padding: 40px 20px; background: #f9f9f9; text-align: center;">
+        <h2><i class="fas fa-phone-alt"></i> Entre em Contato</h2>
+        <p>Precisa de ajuda? Entre em contato com nossa equipe de suporte:</p>
+        <div style="margin-top: 20px;">
+            <p><i class="fas fa-envelope"></i> Email: suporte@sistemafenix.com</p>
+            <p><i class="fab fa-whatsapp"></i> WhatsApp: (11) 99999-9999</p>
+            <p><i class="fas fa-globe"></i> Site: <a href="https://matthecarvalho-dot.github.io/Sistema-F-nix/">Sistema Fênix</a></p>
+        </div>
+    </section>
+
     <script src="script.js"></script>
+    
+    <!-- CSS para a barra de navegação -->
+    <style>
+    .top-nav {
+        background: linear-gradient(135deg, #FF6B00 0%, #FF8E00 100%);
+        padding: 15px 0;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+    
+    .nav-brand {
+        display: flex;
+        align-items: center;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 20px;
+    }
+    
+    .nav-link {
+        color: white;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+        background: rgba(255,255,255,0.2);
+        transform: translateY(-2px);
+    }
+    
+    .nav-link i {
+        margin-right: 8px;
+    }
+    
+    .sidebar .suporte-link {
+        color: #FF6B00;
+        font-weight: bold;
+    }
+    
+    .sidebar .suporte-link:hover {
+        background: rgba(255,107,0,0.1);
+    }
+    
+    .footer-links {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #ddd;
+    }
+    
+    .footer-links a {
+        color: #FF6B00;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+    
+    .footer-links a:hover {
+        text-decoration: underline;
+    }
+    
+    .btn-install {
+        background: transparent;
+        border: 2px solid #FF6B00;
+        color: #FF6B00;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+    
+    .btn-install:hover {
+        background: #FF6B00;
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .nav-container {
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .nav-links {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+    </style>
 </body>
 </html>
