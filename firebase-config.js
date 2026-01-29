@@ -1,7 +1,4 @@
-// firebase-config.js
-// Configuração do Firebase para o Sistema Fênix
-
-// SUAS CREDENCIAIS - VERIFIQUE OS NÚMEROS!
+// firebase-config.js - VERSÃO COMPATÍVEL
 const firebaseConfig = {
   apiKey: "AIzaSyBSEmk9d2rznzYRH4uR8sPLhgF_yDcWRRTa",
   authDomain: "sistema-fenix-d0854.firebaseapp.com",
@@ -12,12 +9,17 @@ const firebaseConfig = {
   measurementId: "G-ZZDWBWQ6Y7"
 };
 
-// Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
+// Inicializar Firebase (forma compatível)
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+} else {
+    firebase.app(); // Se já inicializado, usa essa instância
+}
 
-// Exportar para uso global
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+// Criar referências globais
+window.auth = firebase.auth();
+window.db = firebase.firestore();
+window.firebaseApp = firebase.app();
 
 console.log("✅ Firebase configurado com sucesso!");
+console.log("Projeto:", firebaseConfig.projectId);
