@@ -4,85 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suporte - Sistema Fênix</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="logo-favicon.png" type="image/png">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background: #f9f9f9; color: #333; line-height: 1.6; }
-        header { background: #007bff; color: white; padding: 1rem; text-align: center; }
-        .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
-        .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); margin-bottom: 2rem; }
-        h1, h2 { color: #007bff; margin-bottom: 1rem; }
-        .contact-item { margin: 1rem 0; padding: 1rem; background: #f0f8ff; border-left: 4px solid #007bff; }
-        .btn { display: inline-block; background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 1rem; }
-        .btn:hover { background: #0056b3; }
-        footer { text-align: center; margin-top: 2rem; color: #666; }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Sistema Fênix - Suporte</h1>
-    </header>
-    
-    <div class="container">
-        <div class="card">
-            <h2>📞 Contato Direto</h2>
-            <div class="contact-item">
-                <strong>E-mail:</strong> suporte@sistemafenix.com
-            </div>
-            <div class="contact-item">
-                <strong>WhatsApp:</strong> (11) 99999-9999
-            </div>
-            <div class="contact-item">
-                <strong>Telefone:</strong> (11) 3333-3333
-            </div>
-        </div>
-        
-        <div class="card">
-            <h2>🌐 Links Úteis</h2>
-            <div class="contact-item">
-                <strong>GitHub do Projeto:</strong> 
-                <a href="https://github.com/matthecarvalho-dot/Sistema-F-nix" target="_blank">
-                    github.com/matthecarvalho-dot/Sistema-F-nix
-                </a>
-            </div>
-            <div class="contact-item">
-                <strong>Documentação:</strong> 
-                <a href="https://github.com/matthecarvalho-dot/Sistema-F-nix#readme" target="_blank">
-                    Leia-me do Projeto
-                </a>
-            </div>
-        </div>
-        
-        <div class="card">
-            <h2>📬 Formulário de Contato</h2>
-            <form id="contactForm">
-                <div style="margin-bottom: 1rem;">
-                    <label><strong>Nome:</strong></label><br>
-                    <input type="text" placeholder="Seu nome" style="width: 100%; padding: 8px; margin-top: 5px;" required>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <label><strong>E-mail:</strong></label><br>
-                    <input type="email" placeholder="seu@email.com" style="width: 100%; padding: 8px; margin-top: 5px;" required>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <label><strong>Mensagem:</strong></label><br>
-                    <textarea rows="5" placeholder="Descreva seu problema ou dúvida..." style="width: 100%; padding: 8px; margin-top: 5px;" required></textarea>
-                </div>
-                <button type="submit" class="btn">Enviar Mensagem</button>
-            </form>
-        </div>
-    </div>
-    
-    <footer>
-        <p><a href="index.html" class="btn">Voltar para Página Inicial</a></p>
-        <p>Sistema Fênix &copy; 2025</p>
-    </footer>
-
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Mensagem enviada! Entraremos em contato em breve.');
-            this.reset();
-        });
-    </script>
-</body>
-</html>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #f5f7fa; color: #333; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { background: linear-gradient(135deg, #FF6B00 0%, #FF8E00 100%); color: white; padding: 30px 0; text-align: center; margin-bottom: 40px; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .nav-bar { background: #333; padding: 15px; }
+        .nav-bar a { color: white; text-decoration: none; margin: 0 20px; font-weight: 500; }
+        .nav-bar a:hover { color: #FF6B00; }
+        .card { background: white; border-radius: 10px; padding: 25px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .card h2 { color: #FF6B00; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; }
+        .contact-item { display: flex; align-items: center; margin: 15px 0; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+        .contact-item i { font-size: 24px; color: #FF6B00; margin-right: 15px; width: 40px; }
+        .btn { display: inline-block; background: #FF6B00; color: white; padding: 12px 25px; text-decoration: none;
