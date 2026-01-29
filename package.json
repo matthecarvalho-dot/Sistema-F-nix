@@ -1,0 +1,13 @@
+{
+  "name": "fenix-system",
+  "version": "2.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^24.0.0",
+    "electron-builder": "^24.0.0"
+  }
+}

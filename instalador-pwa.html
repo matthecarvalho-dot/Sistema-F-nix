@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalar Fênix System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            border: 2px solid #FF6B00;
+        }
+        h1 {
+            color: #FF6B00;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        .step {
+            background: rgba(255,107,0,0.1);
+            border-left: 4px solid #FF6B00;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: left;
+            border-radius: 0 8px 8px 0;
+        }
+        .step-number {
+            background: #FF6B00;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .screenshot {
+            width: 100%;
+            max-width: 300px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .btn {
+            background: #FF6B00;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 20px 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: #ff852e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📲 INSTALAR FÊNIX SYSTEM</h1>
+        <p>Transforme seu sistema em um aplicativo desktop!</p>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            Abra o sistema no Chrome/Edge
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            Clique nos 3 pontos no canto superior direito
+        </div>
+        
+        <div class="step">
+            <span class="step-number">3</span>
+            Selecione "Instalar Fênix System"
+        </div>
+        
+        <div class="step">
+            <span class="step-number">4</span>
+            Confirme a instalação quando solicitado
+        </div>
+        
+        <p style="margin: 20px 0; color: #ccc;">
+            <strong>Dica:</strong> Se não aparecer "Instalar", 
+            tente atualizar a página (F5)
+        </p>
+        
+        <div style="margin: 30px 0;">
+            <a href="index.html" class="btn">🔗 ABRIR SISTEMA</a>
+            <button onclick="testarPWA()" class="btn">🧪 TESTAR INSTALAÇÃO</button>
+        </div>
+        
+        <p style="color: #999; font-size: 14px; margin-top: 20px;">
+            Após instalado, o sistema funcionará offline<br>
+            e aparecerá como um app na área de trabalho!
+        </p>
+    </div>
+    
+    <script>
+    function testarPWA() {
+        // Verificar se pode instalar
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            alert('✅ Já está instalado como app!');
+        } else if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                if (registrations.length > 0) {
+                    alert('✅ Service Worker ativo! Agora pode instalar.');
+                } else {
+                    alert('⚠️ Service Worker não registrado. Recarregue a página.');
+                }
+            });
+        } else {
+            alert('❌ Seu navegador não suporta instalação PWA.');
+        }
+    }
+    
+    // Redirecionar automaticamente após 10 segundos
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 10000);
+    </script>
+</body>
+</html>
