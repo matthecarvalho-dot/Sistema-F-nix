@@ -438,3 +438,46 @@ function abrirPainelAdmin() {
 }
 
 console.log("✅ Sistema de autenticação carregado com sucesso!");
+// FUNÇÃO PARA CRIAR NOVO USUÁRIO
+async function criarUsuarioFirebase(nome, email, username, senha, tipo) {
+    try {
+        // 1. Criar usuário no Firebase Authentication
+        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, senha);
+        const user = userCredential.user;
+        
+        // 2. Salvar informações adicionais no Firestore
+        await firebase.firestore().collection('usuarios').doc(user.uid).set({
+            nome: nome,
+            email: email,
+            username: username,
+            tipo: tipo,
+            dataCriacao: firebase.firestore.FieldValue.serverTimestamp(),
+            ativo: true
+        });
+        
+        return {
+            sucesso: true,
+            mensagem: 'Conta criada com sucesso!',
+            usuario: user
+        };
+        
+    } catch (error) {
+        console.error('Erro ao criar usuário:', error);
+        
+        let mensagem = 'Erro ao criar conta: ';
+        if (error.code === 'auth/email-already-in-use') {
+            mensagem = 'Este e-mail já está em uso.';
+        } else if (error.code === 'auth/invalid-email') {
+            mensagem = 'E-mail inválido.';
+        } else if (error.code === 'auth/weak-password') {
+            mensagem = 'A senha é muito fraca. Use pelo menos 6 caracteres.';
+        } else {
+            mensagem += error.message;
+        }
+        
+        return {
+            sucesso: false,
+            mensagem: mensagem
+        };
+    }
+}
