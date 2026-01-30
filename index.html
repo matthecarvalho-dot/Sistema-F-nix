@@ -3,205 +3,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Fênix</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="estilo.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="logo-favicon.png" type="image/png">
+    <title>FÊNIX SYSTEM - Gestão de Clientes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a237e 0%, #311b92 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+            color: #ffab00;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header h2 {
+            font-size: 1.4rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-card h3 {
+            color: #1a237e;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ffab00;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #311b92;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #ffab00;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 171, 0, 0.2);
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .remember label {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #ffab00 0%, #ff9100 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, #ffb300 0%, #ff6d00 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 111, 0, 0.3);
+        }
+
+        .btn-create {
+            background: transparent;
+            color: #1a237e;
+            border: 2px solid #1a237e;
+            padding: 16px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-create:hover {
+            background: #1a237e;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .note {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .note strong {
+            color: #ff6d00;
+        }
+
+        /* Modal de criação de conta */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            animation: modalFade 0.4s ease;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            color: #1a237e;
+            font-size: 1.8rem;
+        }
+
+        .close-modal {
+            background: #ff4444;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row > div {
+            flex: 1;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: #f5f5f5;
+            color: #555;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit {
+            flex: 2;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-submit:hover {
+            background: #388E3C;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
-    <!-- TELA DE LOGIN -->
-    <div id="loginScreen">
-        <div class="login-container">
-            <div class="login-header">
-                <div class="logo-text">
-                    <h1><i class="fas fa-fire"></i> FÊNIX SYSTEM</h1>
-                    <p>Sistema de Gestão de Clientes</p>
-                </div>
+    <div class="container">
+        <div class="header">
+            <h1>FÊNIX SYSTEM</h1>
+            <h2>Sistema de Gestão de Clientes</h2>
+        </div>
+
+        <div class="login-card">
+            <h3>ACESSO RESTRITO</h3>
+
+            <div class="input-group">
+                <label>USUÁRIO</label>
+                <input type="text" id="usuario" placeholder="admin" value="admin">
             </div>
-            
-            <div class="login-form">
-                <h2 class="login-title">
-                    <i class="fas fa-lock"></i> ACESSO RESTRITO
-                </h2>
-                
-                <div class="form-group">
-                    <label><i class="fas fa-user"></i> USUÁRIO</label>
-                    <input type="text" id="loginUsuario" class="form-input" placeholder="Digite seu usuário" value="admin">
-                </div>
-                
-                <div class="form-group">
-                    <label><i class="fas fa-key"></i> SENHA</label>
-                    <input type="password" id="loginSenha" class="form-input" placeholder="Digite sua senha" value="admin123">
-                </div>
-                
-                <div class="checkbox-group">
-                    <input type="checkbox" id="lembrarUsuario">
-                    <label for="lembrarUsuario">Lembrar usuário</label>
-                </div>
-                
-                <button class="btn-login" onclick="fazerLogin()">
-                    <i class="fas fa-sign-in-alt"></i> ENTRAR NO SISTEMA
-                </button>
-                
-                <button class="btn-cadastro" onclick="mostrarCadastro()">
-                    <i class="fas fa-user-plus"></i> CRIAR NOVA CONTA
-                </button>
-                
-                <div class="login-footer">
-                    <div id="loginMessage" class="message"></div>
-                    <p>Para acesso inicial, use: <strong>admin / admin123</strong></p>
-                </div>
+
+            <div class="input-group">
+                <label>SENHA</label>
+                <input type="password" id="senha" placeholder="Digite sua senha">
+            </div>
+
+            <div class="remember">
+                <input type="checkbox" id="lembrar">
+                <label for="lembrar">Lembrar usuário</label>
+            </div>
+
+            <button class="btn-login" onclick="entrarSistema()">ENTRAR NO SISTEMA</button>
+            <button class="btn-create" onclick="abrirCriarConta()">CRIAR NOVA CONTA</button>
+
+            <div class="note">
+                Para acesso inicial, use: <strong>admin / admin123</strong>
             </div>
         </div>
     </div>
 
-    <!-- MODAL DE CADASTRO -->
-    <div id="cadastroModal" class="modal">
+    <!-- Modal para criar nova conta -->
+    <div class="modal" id="modalCriarConta">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-user-plus"></i> CRIAR NOVA CONTA</h3>
-                <button class="btn-close" onclick="fecharCadastro()">×</button>
+                <h2>+ CRIAR NOVA CONTA</h2>
+                <button class="close-modal" onclick="fecharModal()">×</button>
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label><i class="fas fa-user"></i> NOME COMPLETO *</label>
-                    <input type="text" id="novoNome" class="form-input" placeholder="Digite seu nome completo">
+
+            <div class="input-group">
+                <label>NOME COMPLETO</label>
+                <input type="text" id="nomeCompleto" placeholder="Digite seu nome completo">
+            </div>
+
+            <div class="input-group">
+                <label>E-MAIL *</label>
+                <input type="email" id="email" placeholder="seu@email.com">
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label>NOME DE USUÁRIO</label>
+                    <input type="text" id="novoUsuario" placeholder="Escolha um nome de usuário">
                 </div>
-                
-                <div class="form-group">
-                    <label><i class="fas fa-envelope"></i> E-MAIL *</label>
-                    <input type="email" id="novoEmail" class="form-input" placeholder="seu@email.com">
-                </div>
-                
-                <div class="form-group">
-                    <label><i class="fas fa-user-circle"></i> NOME DE USUÁRIO *</label>
-                    <input type="text" id="novoUsername" class="form-input" placeholder="Escolha um nome de usuário">
-                </div>
-                
-                <div class="form-group">
-                    <label><i class="fas fa-lock"></i> SENHA *</label>
-                    <input type="password" id="novaSenha" class="form-input" placeholder="Mínimo 6 caracteres">
-                </div>
-                
-                <div class="form-group">
-                    <label><i class="fas fa-lock"></i> CONFIRMAR SENHA *</label>
-                    <input type="password" id="confirmarSenha" class="form-input" placeholder="Digite a senha novamente">
-                </div>
-                
-                <div class="form-group">
-                    <label><i class="fas fa-user-tag"></i> TIPO DE USUÁRIO</label>
-                    <select id="tipoUsuario" class="form-input">
-                        <option value="vendedor">Vendedor</option>
-                        <option value="admin">Administrador</option>
+                <div class="input-group">
+                    <label>TIPO DE USUÁRIO</label>
+                    <select id="tipoUsuario" style="width:100%; padding:14px 16px; border-radius:10px; border:2px solid #e0e0e0;">
+                        <option>Vendedor</option>
+                        <option>Administrador</option>
+                        <option>Gerente</option>
                     </select>
                 </div>
-                
-                <div id="cadastroMessage" class="message"></div>
             </div>
-            <div class="modal-footer">
-                <button onclick="fecharCadastro()" class="btn btn-secondary">Cancelar</button>
-                <button onclick="criarNovaConta()" class="btn btn-primary">Criar Conta</button>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label>SENHA</label>
+                    <input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres">
+                </div>
+                <div class="input-group">
+                    <label>CONFIRMAR SENHA</label>
+                    <input type="password" id="confirmarSenha" placeholder="Digite a senha novamente">
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+                <button class="btn-submit" onclick="criarConta()">Criar Conta</button>
             </div>
         </div>
     </div>
 
-    <!-- SISTEMA PRINCIPAL -->
-    <div id="mainSystem" style="display: none; width: 100%; min-height: 100vh; background: #f5f5f5;"></div>
-
-    <!-- =========================================== -->
-    <!-- SCRIPTS NA ORDEM CORRETA (USANDO SEUS ARQUIVOS) -->
-    <!-- =========================================== -->
-    
-    <!-- 1. Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
-    
-    <!-- 2. Sua configuração do Firebase (arquivo existente) -->
-    <script src="firebase-config.js"></script>
-    
-    <!-- 3. Sistema de autenticação (arquivo existente) -->
-    <script src="sistema-de-autenticação.js"></script>
-    
-    <!-- 4. Banco de dados de clientes (arquivo existente) -->
-    <script src="clientes-db.js"></script>
-    
-    <!-- 5. Script principal com as novas funções -->
     <script>
-        // FUNÇÕES DE INTERFACE (já existem no seu sistema)
-        function mostrarCadastro() {
-            document.getElementById('cadastroModal').style.display = 'flex';
+        // Função para entrar no sistema
+        function entrarSistema() {
+            const usuario = document.getElementById('usuario').value;
+            const senha = document.getElementById('senha').value;
+            
+            // Validação simples
+            if (usuario === 'admin' && senha === 'admin123') {
+                alert('✅ Login realizado com sucesso! Redirecionando para o dashboard...');
+                // Aqui você redirecionaria para a página principal
+                // window.location.href = 'dashboard.html';
+            } else {
+                alert('❌ Usuário ou senha incorretos! Tente novamente.');
+                document.getElementById('senha').value = '';
+                document.getElementById('senha').focus();
+            }
         }
-        
-        function fecharCadastro() {
-            document.getElementById('cadastroModal').style.display = 'none';
+
+        // Função para abrir modal de criar conta
+        function abrirCriarConta() {
+            document.getElementById('modalCriarConta').style.display = 'flex';
         }
-        
-        // FUNÇÃO PARA CRIAR NOVA CONTA (adicione no seu sistema)
-        async function criarNovaConta() {
-            const nome = document.getElementById('novoNome').value.trim();
-            const email = document.getElementById('novoEmail').value.trim();
-            const username = document.getElementById('novoUsername').value.trim();
+
+        // Função para fechar modal
+        function fecharModal() {
+            document.getElementById('modalCriarConta').style.display = 'none';
+            // Limpar campos
+            document.getElementById('nomeCompleto').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('novoUsuario').value = '';
+            document.getElementById('novaSenha').value = '';
+            document.getElementById('confirmarSenha').value = '';
+        }
+
+        // Função para criar nova conta
+        function criarConta() {
+            const nome = document.getElementById('nomeCompleto').value;
+            const email = document.getElementById('email').value;
+            const usuario = document.getElementById('novoUsuario').value;
             const senha = document.getElementById('novaSenha').value;
             const confirmarSenha = document.getElementById('confirmarSenha').value;
             const tipo = document.getElementById('tipoUsuario').value;
-            
-            const cadastroMessage = document.getElementById('cadastroMessage');
-            
+
             // Validações
-            if (!nome || !email || !username || !senha || !confirmarSenha) {
-                cadastroMessage.textContent = 'Por favor, preencha todos os campos.';
-                cadastroMessage.className = 'message error';
+            if (!nome || !email || !usuario || !senha || !confirmarSenha) {
+                alert('⚠️ Por favor, preencha todos os campos obrigatórios!');
                 return;
             }
-            
+
             if (senha.length < 6) {
-                cadastroMessage.textContent = 'A senha deve ter no mínimo 6 caracteres.';
-                cadastroMessage.className = 'message error';
+                alert('⚠️ A senha deve ter no mínimo 6 caracteres!');
                 return;
             }
-            
+
             if (senha !== confirmarSenha) {
-                cadastroMessage.textContent = 'As senhas não coincidem.';
-                cadastroMessage.className = 'message error';
+                alert('⚠️ As senhas não coincidem!');
                 return;
             }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                alert('⚠️ Por favor, insira um e-mail válido!');
+                return;
+            }
+
+            // Aqui normalmente enviaria os dados para um servidor
+            alert(`✅ Conta criada com sucesso!\n\nNome: ${nome}\nUsuário: ${usuario}\nTipo: ${tipo}\n\nVocê já pode fazer login com suas credenciais.`);
             
-            try {
-                cadastroMessage.textContent = 'Criando conta...';
-                cadastroMessage.className = 'message success';
-                
-                // Chamar função do seu sistema-de-autenticação.js
-                const resultado = await criarUsuarioFirebase(nome, email, username, senha, tipo);
-                
-                if (resultado.sucesso) {
-                    cadastroMessage.textContent = '✅ Conta criada com sucesso! Você já pode fazer login.';
-                    cadastroMessage.className = 'message success';
-                    
-                    setTimeout(() => {
-                        fecharCadastro();
-                        document.getElementById('loginUsuario').value = username;
-                        document.getElementById('loginSenha').value = '';
-                    }, 2000);
-                } else {
-                    cadastroMessage.textContent = resultado.mensagem;
-                    cadastroMessage.className = 'message error';
-                }
-                
-            } catch (error) {
-                console.error('Erro ao criar conta:', error);
-                cadastroMessage.textContent = 'Erro ao criar conta: ' + error.message;
-                cadastroMessage.className = 'message error';
-            }
+            // Fechar modal e limpar campos
+            fecharModal();
+            
+            // Preencher automaticamente o campo de usuário na tela de login
+            document.getElementById('usuario').value = usuario;
+            document.getElementById('senha').value = '';
+            document.getElementById('senha').focus();
         }
-        
-        // Permitir login com Enter
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                fazerLogin();
-            }
+
+        // Permitir pressionar Enter para login
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('senha').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    entrarSistema();
+                }
+            });
+
+            // Fechar modal ao clicar fora
+            document.getElementById('modalCriarConta').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharModal();
+                }
+            });
         });
     </script>
 </body>
