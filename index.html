@@ -558,9 +558,67 @@
     <!-- =============================== -->
     
     <!-- 1. Firebase SDK (Google) -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
+   <!-- =========================================== -->
+<!-- FIREBASE SDK - VERSÃO 8.10.0 (100% COMPATÍVEL) -->
+<!-- =========================================== -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+<!-- =========================================== -->
+<!-- NOSSOS ARQUIVOS DO FIREBASE -->
+<!-- =========================================== -->
+<script src="firebase-config.js"></script>
+<script src="auth-system.js"></script>
+<script src="clientes-db.js"></script>
+
+<!-- =========================================== -->
+<!-- SEU SCRIPT PRINCIPAL -->
+<!-- =========================================== -->
+<script src="script.js"></script>
+
+<!-- =========================================== -->
+<!-- TESTE DO FIREBASE -->
+<!-- =========================================== -->
+<script>
+// Teste imediato do Firebase
+(function() {
+    console.log('🧪 Testando Firebase...');
+    
+    // Aguardar um pouco para o Firebase carregar
+    setTimeout(function() {
+        if (typeof firebase === 'undefined') {
+            console.error('❌ Firebase NÃO carregou!');
+            alert('ERRO: Firebase não carregou. Recarregue a página (Ctrl+F5).');
+        } else {
+            console.log('✅ Firebase carregado com sucesso!');
+            console.log('Versão:', firebase.SDK_VERSION);
+            
+            // Tentar inicializar se não estiver
+            if (!firebase.apps.length) {
+                try {
+                    // Configuração EMERGENCIAL
+                    const configEmergencia = {
+                        apiKey: "AIzaSyBSEmk9d2rznzYRH4uR8sPLhgF_yDcWRRTa",
+                        authDomain: "sistema-fenix-d0854.firebaseapp.com",
+                        projectId: "sistema-fenix-d0854"
+                    };
+                    
+                    firebase.initializeApp(configEmergencia);
+                    console.log('🔥 Firebase inicializado em modo emergência');
+                    
+                    // Criar variáveis globais
+                    window.auth = firebase.auth();
+                    window.db = firebase.firestore();
+                    
+                } catch (error) {
+                    console.error('❌ Erro na inicialização emergencial:', error);
+                }
+            }
+        }
+    }, 1000);
+})();
+</script>
     
     <!-- 2. Nossos arquivos Firebase (ORDEM IMPORTANTE!) -->
     <script src="firebase-config.js"></script>      <!-- 1º: Configuração -->
@@ -705,3 +763,4 @@
     </style>
 </body>
 </html>
+
