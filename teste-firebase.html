@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste Firebase</title>
+</head>
+<body>
+    <h2>Teste do Firebase - Sistema Fênix</h2>
+    
+    <div>
+        <input type="email" id="email" placeholder="Email" value="teste@exemplo.com">
+        <input type="password" id="senha" placeholder="Senha" value="123456">
+        <button onclick="testar()">Testar Firebase</button>
+    </div>
+    
+    <div id="resultado" style="margin-top: 20px; padding: 10px; background: #f0f0f0;"></div>
+    
+    <!-- Firebase 8.10.0 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBSEmk9d2rznzYRH4uR8sPLhgF_yDcWRRTa",
+        authDomain: "sistema-fenix-d0854.firebaseapp.com",
+        projectId: "sistema-fenix-d0854",
+        storageBucket: "sistema-fenix-d0854.firebasestorage.app",
+        messagingSenderId: "6471397011",
+        appId: "1:6471397011:web:86b518538ea0bbf3feeed74"
+    };
+    
+    async function testar() {
+        const resultado = document.getElementById('resultado');
+        resultado.innerHTML = '<p>Testando...</p>';
+        
+        try {
+            // 1. Testar se Firebase carrega
+            if (typeof firebase === 'undefined') {
+                resultado.innerHTML = '<p style="color: red">❌ Firebase não carregou</p>';
+                return;
+            }
+            
+            resultado.innerHTML += '<p>✅ Firebase carregado. Versão: ' + firebase.SDK_VERSION + '</p>';
+            
+            // 2. Inicializar
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+                resultado.innerHTML += '<p>✅ Firebase inicializado</p>';
+            }
+            
+            // 3. Testar autenticação
+            const auth = firebase.auth();
+            resultado.innerHTML += '<p>✅ Módulo Auth carregado</p>';
+            
+            // 4. Tentar criar conta
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
+            
+            resultado.innerHTML += '<p>Tentando criar conta: ' + email + '</p>';
+            
+            const userCredential = await auth.createUserWithEmailAndPassword(email, senha);
+            resultado.innerHTML += '<p style="color: green">✅ CONTA CRIADA COM SUCESSO!</p>';
+            resultado.innerHTML += '<p>ID do usuário: ' + userCredential.user.uid + '</p>';
+            resultado.innerHTML += '<p>Email: ' + userCredential.user.email + '</p>';
+            
+        } catch (error) {
+            resultado.innerHTML += '<p style="color: red">❌ ERRO: ' + error.code + '</p>';
+            resultado.innerHTML += '<p>' + error.message + '</p>';
+            
+            // Se erro for "email já em uso", tentar login
+            if (error.code === 'auth/email-already-in-use') {
+                resultado.innerHTML += '<p>Tentando fazer login...</p>';
+                try {
+                    const auth = firebase.auth();
+                    const email = document.getElementById('email').value;
+                    const senha = document.getElementById('senha').value;
+                    
+                    const user = await auth.signInWithEmailAndPassword(email, senha);
+                    resultado.innerHTML += '<p style="color: green">✅ LOGIN REALIZADO!</p>';
+                } catch (loginError) {
+                    resultado.innerHTML += '<p style="color: red">❌ Login falhou: ' + loginError.message + '</p>';
+                }
+            }
+        }
+    }
+    
+    // Teste automático ao carregar
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('resultado').innerHTML = '<p>Firebase versão: ' + (typeof firebase !== 'undefined' ? firebase.SDK_VERSION : 'não carregado') + '</p>';
+    });
+    </script>
+</body>
+</html>
