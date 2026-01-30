@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FÊNIX SYSTEM - Gestão de Clientes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0d47a1, #311b92);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #ff9800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header h2 {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .login-title {
+            color: #0d47a1;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ff9800;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #ff9800;
+            outline: none;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .remember input {
+            margin-right: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-login:hover {
+            background: #f57c00;
+            transform: translateY(-2px);
+        }
+
+        .btn-create {
+            background: #2196f3;
+            color: white;
+        }
+
+        .btn-create:hover {
+            background: #1976d2;
+            transform: translateY(-2px);
+        }
+
+        .note {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f44336;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: #9e9e9e;
+            color: white;
+        }
+
+        .btn-submit {
+            flex: 2;
+            background: #4caf50;
+            color: white;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FÊNIX SYSTEM</h1>
+            <h2>Sistema de Gestão de Clientes</h2>
+        </div>
+
+        <div class="login-box">
+            <h2 class="login-title">ACESSO RESTRITO</h2>
+
+            <div class="input-group">
+                <label>USUÁRIO</label>
+                <input type="text" id="usuario" placeholder="admin" value="admin">
+            </div>
+
+            <div class="input-group">
+                <label>SENHA</label>
+                <input type="password" id="senha" placeholder="Digite sua senha">
+            </div>
+
+            <div class="remember">
+                <input type="checkbox" id="lembrar">
+                <label for="lembrar">Lembrar usuário</label>
+            </div>
+
+            <button class="btn btn-login" onclick="fazerLogin()">ENTRAR NO SISTEMA</button>
+            <button class="btn btn-create" onclick="abrirModal()">CRIAR NOVA CONTA</button>
+
+            <div class="note">
+                Para acesso inicial, use: <strong>admin / admin123</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para criar conta -->
+    <div id="modalConta" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="fecharModal()">×</button>
+            <h2 style="color:#2196f3; margin-bottom:25px;">+ CRIAR NOVA CONTA</h2>
+
+            <div class="input-group">
+                <label>NOME COMPLETO</label>
+                <input type="text" id="nome" placeholder="Digite seu nome completo">
+            </div>
+
+            <div class="input-group">
+                <label>E-MAIL *</label>
+                <input type="email" id="email" placeholder="seu@email.com">
+            </div>
+
+            <div class="input-group">
+                <label>NOME DE USUÁRIO</label>
+                <input type="text" id="novoUsuario" placeholder="Escolha um nome de usuário">
+            </div>
+
+            <div class="input-group">
+                <label>SENHA</label>
+                <input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres">
+            </div>
+
+            <div class="input-group">
+                <label>CONFIRMAR SENHA</label>
+                <input type="password" id="confirmaSenha" placeholder="Digite a senha novamente">
+            </div>
+
+            <div class="input-group">
+                <label>TIPO DE USUÁRIO</label>
+                <select id="tipoUsuario">
+                    <option>Vendedor</option>
+                    <option>Administrador</option>
+                    <option>Gerente</option>
+                </select>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn btn-cancel" onclick="fecharModal()">Cancelar</button>
+                <button class="btn btn-submit" onclick="criarConta()">Criar Conta</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FUNÇÕES PRINCIPAIS
+        
+        function fazerLogin() {
+            let usuario = document.getElementById('usuario').value;
+            let senha = document.getElementById('senha').value;
+            
+            if (usuario === 'admin' && senha === 'admin123') {
+                alert('✅ Login realizado com sucesso!');
+                // Redirecionar para dashboard
+                // window.location.href = 'dashboard.html';
+            } else {
+                alert('❌ Usuário ou senha incorretos!');
+                document.getElementById('senha').value = '';
+            }
+        }
+        
+        function abrirModal() {
+            document.getElementById('modalConta').style.display = 'flex';
+        }
+        
+        function fecharModal() {
+            document.getElementById('modalConta').style.display = 'none';
+            // Limpar campos
+            document.getElementById('nome').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('novoUsuario').value = '';
+            document.getElementById('novaSenha').value = '';
+            document.getElementById('confirmaSenha').value = '';
+        }
+        
+        function criarConta() {
+            let nome = document.getElementById('nome').value;
+            let email = document.getElementById('email').value;
+            let usuario = document.getElementById('novoUsuario').value;
+            let senha = document.getElementById('novaSenha').value;
+            let confirma = document.getElementById('confirmaSenha').value;
+            let tipo = document.getElementById('tipoUsuario').value;
+            
+            // Validações
+            if (!nome || !email || !usuario || !senha || !confirma) {
+                alert('⚠️ Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            if (senha.length < 6) {
+                alert('⚠️ A senha deve ter no mínimo 6 caracteres!');
+                return;
+            }
+            
+            if (senha !== confirma) {
+                alert('⚠️ As senhas não coincidem!');
+                return;
+            }
+            
+            // Criar conta com sucesso
+            alert(`✅ Conta criada com sucesso!\n\nUsuário: ${usuario}\nTipo: ${tipo}`);
+            
+            // Fechar modal
+            fecharModal();
+            
+            // Preencher automaticamente o login
+            document.getElementById('usuario').value = usuario;
+            document.getElementById('senha').value = '';
+            document.getElementById('senha').focus();
+        }
+        
+        // Fechar modal ao clicar fora
+        document.getElementById('modalConta').addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharModal();
+            }
+        });
+        
+        // Permitir Enter para login
+        document.getElementById('senha').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                fazerLogin();
+            }
+        });
+    </script>
+</body>
+</html>
