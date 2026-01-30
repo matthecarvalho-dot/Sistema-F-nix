@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Fênix</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ESTILO COMPLETO NO MESMO ARQUIVO -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a237e, #311b92);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* TELA DE LOGIN */
+        #loginScreen {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #ff6b35, #ff8e53);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .logo-text h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .logo-text p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .login-form {
+            padding: 30px;
+        }
+
+        .login-title {
+            color: #333;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: #ff6b35;
+            outline: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .checkbox-group input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .checkbox-group label {
+            color: #555;
+            cursor: pointer;
+        }
+
+        /* BOTÕES */
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, #388E3C, #1B5E20);
+            transform: translateY(-2px);
+        }
+
+        .btn-cadastro {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-cadastro:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #ddd;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .login-footer strong {
+            color: #ff6b35;
+        }
+
+        /* MENSAGENS */
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #ffcdd2;
+        }
+
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        /* MODAL DE CADASTRO */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 95%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: #2196F3;
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 0 0 15px 15px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-secondary {
+            background: #757575;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #616161;
+        }
+
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #388E3C;
+        }
+
+        /* Responsivo */
+        @media (max-width: 480px) {
+            .login-header {
+                padding: 20px;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.8rem;
+            }
+            
+            .login-form {
+                padding: 20px;
+            }
+            
+            button {
+                padding: 14px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- TELA DE LOGIN -->
+    <div id="loginScreen">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="logo-text">
+                    <h1><i class="fas fa-fire"></i> FÊNIX SYSTEM</h1>
+                    <p>Sistema de Gestão de Clientes</p>
+                </div>
+            </div>
+            
+            <div class="login-form">
+                <h2 class="login-title">
+                    <i class="fas fa-lock"></i> ACESSO RESTRITO
+                </h2>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> USUÁRIO</label>
+                    <input type="text" id="loginUsuario" class="form-input" placeholder="Digite seu usuário" value="admin">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-key"></i> SENHA</label>
+                    <input type="password" id="loginSenha" class="form-input" placeholder="Digite sua senha" value="admin123">
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="lembrarUsuario">
+                    <label for="lembrarUsuario">Lembrar usuário</label>
+                </div>
+                
+                <button class="btn-login" onclick="fazerLogin()">
+                    <i class="fas fa-sign-in-alt"></i> ENTRAR NO SISTEMA
+                </button>
+                
+                <button class="btn-cadastro" onclick="mostrarCadastro()">
+                    <i class="fas fa-user-plus"></i> CRIAR NOVA CONTA
+                </button>
+                
+                <div class="login-footer">
+                    <div id="loginMessage" class="message"></div>
+                    <p>Para acesso inicial, use: <strong>admin / admin123</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CADASTRO -->
+    <div id="cadastroModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> CRIAR NOVA CONTA</h3>
+                <button class="btn-close" onclick="fecharCadastro()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> NOME COMPLETO *</label>
+                    <input type="text" id="novoNome" class="form-input" placeholder="Digite seu nome completo">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> E-MAIL *</label>
+                    <input type="email" id="novoEmail" class="form-input" placeholder="seu@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-user-circle"></i> NOME DE USUÁRIO *</label>
+                    <input type="text" id="novoUsername" class="form-input" placeholder="Escolha um nome de usuário">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> SENHA *</label>
+                    <input type="password" id="novaSenha" class="form-input" placeholder="Mínimo 6 caracteres">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> CONFIRMAR SENHA *</label>
+                    <input type="password" id="confirmarSenha" class="form-input" placeholder="Digite a senha novamente">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-user-tag"></i> TIPO DE USUÁRIO</label>
+                    <select id="tipoUsuario" class="form-input">
+                        <option value="vendedor">Vendedor</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+                
+                <div id="cadastroMessage" class="message"></div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="fecharCadastro()" class="btn btn-secondary">Cancelar</button>
+                <button onclick="criarNovaConta()" class="btn btn-primary">Criar Conta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SISTEMA PRINCIPAL (ESCONDIDO) -->
+    <div id="mainSystem" style="display: none; width: 100%; min-height: 100vh; background: #f5f5f5;"></div>
+
+    <!-- JAVASCRIPT COMPLETO NO MESMO ARQUIVO -->
+    <script>
+        // FUNÇÕES DE INTERFACE
+        function mostrarCadastro() {
+            document.getElementById('cadastroModal').style.display = 'flex';
+        }
+        
+        function fecharCadastro() {
+            document.getElementById('cadastroModal').style.display = 'none';
+            // Limpar mensagens
+            document.getElementById('cadastroMessage').textContent = '';
+            document.getElementById('cadastroMessage').className = 'message';
+        }
+        
+        // FUNÇÃO DE LOGIN SIMULADO
+        function fazerLogin() {
+            const usuario = document.getElementById('loginUsuario').value.trim();
+            const senha = document.getElementById('loginSenha').value;
+            const lembrar = document.getElementById('lembrarUsuario').checked;
+            const loginMessage = document.getElementById('loginMessage');
+            
+            // Validação simples
+            if (!usuario || !senha) {
+                loginMessage.textContent = 'Por favor, preencha todos os campos.';
+                loginMessage.className = 'message error';
+                return;
+            }
+            
+            // Login padrão
+            if (usuario === 'admin' && senha === 'admin123') {
+                // Salvar no localStorage se marcou "lembrar"
+                if (lembrar) {
+                    localStorage.setItem('fenix_user', usuario);
+                }
+                
+                loginMessage.textContent = '✅ Login realizado com sucesso! Redirecionando...';
+                loginMessage.className = 'message success';
+                
+                // Simular carregamento
+                setTimeout(() => {
+                    // Aqui você redirecionaria para o sistema principal
+                    // Por enquanto, vamos mostrar um sistema básico
+                    mostrarSistemaPrincipal(usuario);
+                }, 1500);
+            } else {
+                // Verificar se tem usuários criados
+                const usuariosSalvos = JSON.parse(localStorage.getItem('fenix_usuarios') || '[]');
+                const usuarioEncontrado = usuariosSalvos.find(u => u.username === usuario && u.senha === senha);
+                
+                if (usuarioEncontrado) {
+                    loginMessage.textContent = '✅ Login realizado com sucesso!';
+                    loginMessage.className = 'message success';
+                    
+                    setTimeout(() => {
+                        mostrarSistemaPrincipal(usuarioEncontrado.nome);
+                    }, 1500);
+                } else {
+                    loginMessage.textContent = '❌ Usuário ou senha incorretos.';
+                    loginMessage.className = 'message error';
+                }
+            }
+        }
+        
+        // FUNÇÃO PARA CRIAR NOVA CONTA
+        function criarNovaConta() {
+            const nome = document.getElementById('novoNome').value.trim();
+            const email = document.getElementById('novoEmail').value.trim();
+            const username = document.getElementById('novoUsername').value.trim();
+            const senha = document.getElementById('novaSenha').value;
+            const confirmarSenha = document.getElementById('confirmarSenha').value;
+            const tipo = document.getElementById('tipoUsuario').value;
+            
+            const cadastroMessage = document.getElementById('cadastroMessage');
+            
+            // Validações
+            if (!nome || !email || !username || !senha || !confirmarSenha) {
+                cadastroMessage.textContent = 'Por favor, preencha todos os campos.';
+                cadastroMessage.className = 'message error';
+                return;
+            }
+            
+            if (senha.length < 6) {
+                cadastroMessage.textContent = 'A senha deve ter no mínimo 6 caracteres.';
+                cadastroMessage.className = 'message error';
+                return;
+            }
+            
+            if (senha !== confirmarSenha) {
+                cadastroMessage.textContent = 'As senhas não coincidem.';
+                cadastroMessage.className = 'message error';
+                return;
+            }
+            
+            // Validar email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                cadastroMessage.textContent = 'Por favor, insira um e-mail válido.';
+                cadastroMessage.className = 'message error';
+                return;
+            }
+            
+            // Verificar se usuário já existe
+            const usuariosSalvos = JSON.parse(localStorage.getItem('fenix_usuarios') || '[]');
+            const usuarioExiste = usuariosSalvos.find(u => u.username === username);
+            
+            if (usuarioExiste) {
+                cadastroMessage.textContent = 'Este nome de usuário já está em uso.';
+                cadastroMessage.className = 'message error';
+                return;
+            }
+            
+            // Criar novo usuário
+            const novoUsuario = {
+                nome: nome,
+                email: email,
+                username: username,
+                senha: senha, // ATENÇÃO: Em sistema real, NUNCA salvar senha assim!
+                tipo: tipo,
+                dataCriacao: new Date().toISOString()
+            };
+            
+            // Adicionar à lista
+            usuariosSalvos.push(novoUsuario);
+            localStorage.setItem('fenix_usuarios', JSON.stringify(usuariosSalvos));
+            
+            // Sucesso
+            cadastroMessage.textContent = '✅ Conta criada com sucesso! Você já pode fazer login.';
+            cadastroMessage.className = 'message success';
+            
+            // Limpar campos e fechar modal após 2 segundos
+            setTimeout(() => {
+                fecharCadastro();
+                document.getElementById('loginUsuario').value = username;
+                document.getElementById('loginSenha').value = '';
+                document.getElementById('loginMessage').textContent = 'Conta criada! Agora faça login.';
+                document.getElementById('loginMessage').className = 'message success';
+            }, 2000);
+        }
+        
+        // FUNÇÃO PARA MOSTRAR SISTEMA PRINCIPAL
+        function mostrarSistemaPrincipal(nomeUsuario) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainSystem').style.display = 'block';
+            
+            // Criar interface básica do sistema
+            document.getElementById('mainSystem').innerHTML = `
+                <div style="padding: 20px;">
+                    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <h1 style="color: #ff6b35; margin-bottom: 20px;">
+                            <i class="fas fa-fire"></i> BEM-VINDO AO FÊNIX SYSTEM
+                        </h1>
+                        <p style="font-size: 1.2rem; margin-bottom: 30px;">Olá, <strong>${nomeUsuario}</strong>! Você está logado no sistema.</p>
+                        
+                        <div style="background: #e8f5e9; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                            <h3><i class="fas fa-check-circle"></i> Sistema Funcionando!</h3>
+                            <p>Login e criação de contas estão operacionais.</p>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-top: 30px;">
+                            <button onclick="location.reload()" style="background: #f44336; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer;">
+                                <i class="fas fa-sign-out-alt"></i> Sair
+                            </button>
+                            <button onclick="mostrarUsuarios()" style="background: #2196F3; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer;">
+                                <i class="fas fa-users"></i> Ver Usuários
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="usuariosContainer" style="margin-top: 30px;"></div>
+                </div>
+            `;
+        }
+        
+        // FUNÇÃO PARA MOSTRAR USUÁRIOS CADASTRADOS
+        function mostrarUsuarios() {
+            const usuariosSalvos = JSON.parse(localStorage.getItem('fenix_usuarios') || '[]');
+            const container = document.getElementById('usuariosContainer');
+            
+            if (usuariosSalvos.length === 0) {
+                container.innerHTML = `
+                    <div style="background: white; padding: 20px; border-radius: 10px;">
+                        <p>Nenhum usuário cadastrado ainda.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '<div style="background: white; padding: 20px; border-radius: 10px;"><h3>Usuários Cadastrados:</h3><ul style="margin-top: 15px;">';
+            
+            usuariosSalvos.forEach(usuario => {
+                html += `
+                    <li style="margin: 10px 0; padding: 10px; background: #f5f5f5; border-radius: 5px;">
+                        <strong>${usuario.nome}</strong><br>
+                        Usuário: ${usuario.username} | Tipo: ${usuario.tipo}<br>
+                        E-mail: ${usuario.email}
+                    </li>
+                `;
+            });
+            
+            html += '</ul></div>';
+            container.innerHTML = html;
+        }
+        
+        // EVENT LISTENERS
+        document.addEventListener('DOMContentLoaded', function() {
+            // Preencher usuário salvo
+            const usuarioSalvo = localStorage.getItem('fenix_user');
+            if (usuarioSalvo) {
+                document.getElementById('loginUsuario').value = usuarioSalvo;
+                document.getElementById('lembrarUsuario').checked = true;
+            }
+            
+            // Login com Enter
+            document.getElementById('loginSenha').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    fazerLogin();
+                }
+            });
+            
+            // Criar conta com Enter
+            document.getElementById('confirmarSenha').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    criarNovaConta();
+                }
+            });
+            
+            // Fechar modal ao clicar fora
+            document.getElementById('cadastroModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    fecharCadastro();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
